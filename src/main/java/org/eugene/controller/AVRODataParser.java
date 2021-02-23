@@ -1,6 +1,8 @@
 package org.eugene.controller;
 
 
+import org.apache.avro.LogicalType;
+import org.apache.avro.LogicalTypes;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.hadoop.fs.Path;
@@ -11,6 +13,9 @@ import org.eugene.persistent.VirtualDB;
 import org.eugene.ui.Constants;
 import org.eugene.ui.Notifier;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +57,12 @@ public class AVRODataParser extends DataParser {
                 if (record.get(j) == null){
                     commonRecord.add(Constants.NULL);
                 }else{
-                    commonRecord.add(String.valueOf(record.get(j)));
+                    LogicalType lt = LogicalTypes.fromSchema(schema.getField(propertyList.get(j)).schema());
+                    if (lt != null && lt.getName().equals("date")) {
+                        commonRecord.add(LocalDate.ofEpochDay(Long.valueOf(String.valueOf(record.get(j)))).format(DateTimeFormatter.ISO_DATE));
+                    } else {
+                        commonRecord.add(String.valueOf(record.get(j)));
+                    }
                 }
             }
             data.add(commonRecord);

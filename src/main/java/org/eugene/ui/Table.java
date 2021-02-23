@@ -53,7 +53,7 @@ public class Table {
             TableColumn<List<StringProperty>, String> tableColumn = new TableColumn<>(property);
             int finalIndex = index;
             tableColumn.setCellValueFactory(colData -> colData.getValue().get(finalIndex));
-            tableColumn.setSortable(false);
+            tableColumn.setSortable(true);
             tableColumn.setEditable(false);
             tableView.getColumns().add(tableColumn);
             index++;
