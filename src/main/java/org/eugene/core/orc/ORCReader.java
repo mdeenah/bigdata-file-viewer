@@ -1,10 +1,12 @@
 package org.eugene.core.orc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hive.ql.io.orc.OrcFile;
 import org.apache.hadoop.hive.ql.io.orc.Reader;
 import org.apache.hadoop.hive.ql.io.orc.RecordReader;
-
 import org.apache.hadoop.hive.serde2.objectinspector.StructField;
 import org.apache.hadoop.hive.serde2.objectinspector.StructObjectInspector;
 import org.eugene.model.CommonData;
@@ -12,9 +14,6 @@ import org.eugene.model.TableMeta;
 import org.eugene.persistent.VirtualDB;
 import org.eugene.ui.Constants;
 import org.eugene.ui.Notifier;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ORCReader extends org.eugene.core.common.Reader {
     public boolean read(Path path){
@@ -25,7 +24,7 @@ public class ORCReader extends org.eugene.core.common.Reader {
             //The JSON schema provided is illegal, so need to make it valid firstly
             schema = schema.replaceAll("(\"[\\w]+\"):([\\s]+[{]+)", "$1,$2");
             RecordReader records = reader.rows();
-            List fields = inspector.getAllStructFieldRefs();
+            List<? extends StructField> fields = inspector.getAllStructFieldRefs();
             List<String> propertyList = new ArrayList<>();
             int columnNumber = fields.size();
             for(int i = 0; i < fields.size(); ++i) {
@@ -37,8 +36,7 @@ public class ORCReader extends org.eugene.core.common.Reader {
             while(records.hasNext())
             {
                 row = records.next(row);
-                List list = inspector.getStructFieldsDataAsList(row);
-                StringBuilder builder = new StringBuilder();
+                List<Object> list = inspector.getStructFieldsDataAsList(row);
                 List<String> record = new ArrayList<>();
                 for(Object field : list) {
                     if(field != null){

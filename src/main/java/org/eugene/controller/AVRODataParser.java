@@ -1,23 +1,20 @@
 package org.eugene.controller;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.avro.LogicalType;
 import org.apache.avro.LogicalTypes;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.hadoop.fs.Path;
 import org.eugene.core.avro.AVROReader;
-import org.eugene.model.CommonData;
 import org.eugene.model.TableMeta;
-import org.eugene.persistent.VirtualDB;
 import org.eugene.ui.Constants;
 import org.eugene.ui.Notifier;
-
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AVRODataParser extends DataParser {
 

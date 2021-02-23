@@ -1,10 +1,10 @@
 package org.eugene.controller;
 
-import javafx.stage.Stage;
-import org.apache.avro.generic.GenericData;
+import java.util.List;
+
 import org.eugene.ui.Table;
 
-import java.util.List;
+import javafx.stage.Stage;
 
 public class TableRenderer {
     private Stage stage;
